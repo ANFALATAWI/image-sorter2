@@ -353,17 +353,24 @@ def make_folder(directory):
 # The main bit of the script only gets exectured if it is directly called
 if __name__ == "__main__":
 
-###### Commenting out the initial input and puting input into preamble
-#     # Make input arguments
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('-f', '--folder', help='Input folder where the *tif images should be', required=True)
-#     parser.add_argument('-l', '--labels', nargs='+', help='Possible labels in the images', required=True)
-#     args = parser.parse_args()
+    # Make input arguments
+    parser = argparse.ArgumentParser(usage='-f <folder_images_in> -l label1 label2 -m (or -c for copy)',
+                                     description='Classifies images from a directory to multiple folders, either copying or moving the images.')
 
-#     # grab input arguments from args structure
-#     input_folder = args.folder
-#     labels = args.labels
+    parser.add_argument('folder', help='Input folder of images to classify')
+    parser.add_argument('labels', nargs='+', help='Possible labels for the classes')
+    parser.add_argument('-o', help='Option to copy images or move them into folders, default=move', choices=['move','copy'], default='move' ,required=False)
+    # parser.add_argument('-c', '--copy', help='some desc', required=False)
+    args = parser.parse_args()
+
+    print(args)
+    # grab input arguments from args structure
+    input_folder = args.folder
+    labels = args.labels
     
+    # Assert the arg is a folder directory
+    
+
     # Make folder for the new labels
     for label in labels:
         make_folder(os.path.join(input_folder, label))
