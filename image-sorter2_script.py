@@ -16,9 +16,7 @@
  Date: 24. Dec 2018
 """
 
-# Define global variables, which are to be changed by user:
 
-# In[5]:
 
 
 ##### added in version 2
@@ -353,11 +351,12 @@ def make_folder(directory):
 if __name__ == "__main__":
 
     # Make input arguments
-    parser = argparse.ArgumentParser(usage='-folder <folder_images_in> -labels label1 label2 [label3, ...] -option (move or copy)',
+    parser = argparse.ArgumentParser(usage='-folder <input/folder/> -labels label1 label2 [label3, ...] -ext <.jpg or .png or else> -option <move or copy>',
                                      description='Classifies images from a directory to multiple folders, either copying or moving the images.')
 
-    parser.add_argument('-folder', help='Input folder of images to classify')
-    parser.add_argument('-labels', nargs='+', help='Possible labels for the classes')
+    parser.add_argument('-folder', help='Input folder of images to classify', required=True)
+    parser.add_argument('-labels', nargs='+', help='Possible labels for the classes', required=True)
+    parser.add_argument('-ext', nargs='+', help='Extensions of the images to sort (.jpg, .png, etc)', default=['.png', '.jpg'])
     parser.add_argument('-option', help='Option to copy images or move them into folders, default=move',
                               choices=['move','copy'],
                               default='move' ,
@@ -369,12 +368,10 @@ if __name__ == "__main__":
     input_folder = args.folder
     labels = args.labels
     option = args.option
-    print(">>Input folder: {0}, Labels: {1}, Option: {2}".format(input_folder, labels, option))
+    file_extensions = args.ext
+    print(">>Input folder: {0}, Labels: {1}, Option: {2}, Extensions: {3}".format(input_folder, labels, option, file_extensions))
 
-    # TODO: Assert the input arg is a folder directory
-    if not os.path.exists(input_folder):
-        print(">>Folder does not exist")
-        exit()
+
     
     # Make folder for the new labels
     for label in labels:
