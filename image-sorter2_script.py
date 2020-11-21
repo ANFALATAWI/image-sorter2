@@ -16,7 +16,6 @@
  Date: 24. Dec 2018
 """
 
-
 # Define global variables, which are to be changed by user:
 
 # In[5]:
@@ -354,23 +353,29 @@ def make_folder(directory):
 if __name__ == "__main__":
 
     # Make input arguments
-    parser = argparse.ArgumentParser(usage='-f <folder_images_in> -l label1 label2 -m (or -c for copy)',
+    parser = argparse.ArgumentParser(usage='-folder <folder_images_in> -labels label1 label2 [label3, ...] -option (move or copy)',
                                      description='Classifies images from a directory to multiple folders, either copying or moving the images.')
 
-    parser.add_argument('folder', help='Input folder of images to classify')
-    parser.add_argument('labels', nargs='+', help='Possible labels for the classes')
-    parser.add_argument('-o', help='Option to copy images or move them into folders, default=move', choices=['move','copy'], default='move' ,required=False)
-    # parser.add_argument('-c', '--copy', help='some desc', required=False)
+    parser.add_argument('-folder', help='Input folder of images to classify')
+    parser.add_argument('-labels', nargs='+', help='Possible labels for the classes')
+    parser.add_argument('-option', help='Option to copy images or move them into folders, default=move',
+                              choices=['move','copy'],
+                              default='move' ,
+                              required=False)
     args = parser.parse_args()
 
     print(args)
     # grab input arguments from args structure
     input_folder = args.folder
     labels = args.labels
-    
-    # Assert the arg is a folder directory
-    
+    option = args.option
+    print(">>Input folder: {0}, Labels: {1}, Option: {2}".format(input_folder, labels, option))
 
+    # TODO: Assert the input arg is a folder directory
+    if not os.path.exists(input_folder):
+        print(">>Folder does not exist")
+        exit()
+    
     # Make folder for the new labels
     for label in labels:
         make_folder(os.path.join(input_folder, label))
